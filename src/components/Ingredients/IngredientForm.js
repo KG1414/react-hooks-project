@@ -22,9 +22,7 @@ const IngredientForm = React.memo(props => {
               type="text"
               id="title"
               value={enteredTitle}
-              onChange={event => {
-                setEnteredTitle(event.target.value);
-              }}
+              onChange={event => setEnteredTitle(event.target.value)}
             />
           </div>
           <div className="form-control">

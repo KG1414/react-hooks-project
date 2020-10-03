@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import IngredientForm from './IngredientForm';
 import IngredientList from './IngredientList';
@@ -8,22 +8,12 @@ function Ingredients() {
   const [userIngredients, setUserIngredients] = useState([]);
 
   useEffect(() => {
-    fetch('https://react-hooks-update-7a7a9.firebaseio.com/ingredients.json')
-      .then(response => response.json())
-      .then(responseData => {     // responseData will be an object from Firebase, not an array
-        const loadedIngredients = [];
-        for (const key in responseData) {
-          loadedIngredients.push({
-            id: key,
-            title: responseData[key].title,
-            amount: responseData[key].amount
-          });
-        }
-        setUserIngredients(loadedIngredients);
-      });
-  }, []); //only re-renders if dependencies (in this array) change, avoiding an infinity loop
+    console.log('RENDERING INGREDIENTS', userIngredients);
+  }, [userIngredients]);
 
-
+  const filteredIngredientsHandler = useCallback(filteredIngredients => {
+    setUserIngredients(filteredIngredients);
+  }, [setUserIngredients]);
 
   const addIngredientHandler = ingredient => {
     fetch('https://react-hooks-update-7a7a9.firebaseio.com/ingredients.json', {
@@ -50,7 +40,7 @@ function Ingredients() {
         onAddIngredient={addIngredientHandler} />
 
       <section>
-        <Search />
+        <Search onLoadIngredients={filteredIngredientsHandler} />
         <IngredientList ingredients={userIngredients} onRemoveItem={removeIngredientHandler} />
         {/* Need to add list here! */}
       </section>
