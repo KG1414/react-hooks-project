@@ -13,7 +13,7 @@ const AuthContextProvider = props => {
     };
 
     return (
-        <AuthContext.Provider value={{ login: loginHandler, isAuth: isAuthenticated }}>
+        <AuthContext.Provider value={{ login: loginHandler, isAuth: isAuthenticated }}> {/* Provider declares data available throughout component tree */}
             {props.children}
         </AuthContext.Provider>
     );
